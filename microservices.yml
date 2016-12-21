@@ -1,0 +1,14 @@
+version: "2"
+services:
+  add:
+    image: alpyservices
+    command: python add.py RABBIT_HOST=10.128.0.2 REDIS_HOST=10.128.0.2
+  multiply:
+    image: alpyservices
+    command: python multiply.py RABBIT_HOST=10.128.0.2 REDIS_HOST=10.128.0.2
+  subtract:
+    image: alpyservices
+    command: python subtract.py RABBIT_HOST=10.128.0.2 REDIS_HOST=10.128.0.2
+  collect:
+    image: alpyservices
+    command: python collect.py RABBIT_HOST=10.128.0.2 REDIS_HOST=10.128.0.2
