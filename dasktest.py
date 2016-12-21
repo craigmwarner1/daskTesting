@@ -16,10 +16,10 @@ def delay():
        else:
            break
 
-#def perpetual_services(junk):
-#    run(['docker-compose', '-f', 'perpetual_services.yml', 'up', '-d'])
-#    print('started')
-#    return ''
+def perpetual_services(junk):
+   run(['docker-compose', '-f', 'perpetual_services.yml', 'up', '-d'])
+   print('started')
+   return ''
 
 def load_csv(filepath):
     print('load')
@@ -30,19 +30,15 @@ def load_csv(filepath):
             contents[str(n)] = row
     return contents
 
-#def microservices(input):
-#    run(['docker-compose', '-f', 'microservices.yml', 'up', '-d'])
-#    return 'MOCK_DATA.csv'
+def microservices(input):
+   run(['docker-compose', '-f', 'microservices.yml', 'up', '-d'])
+   return 'MOCK_DATA.csv'
 
 def clean_send(data, pubkey):
-#    microservices()
     delay()
     broker = Communicator('send', 'first')
-#    info = data.pop([0])
     for key in data.keys():
-#        body = { info[0]: row[0], info[1]: int(row[1]) }
         broker.publish(data[key], pubkey)
-#        body.clear()
     print('sent')
     return ''
 
@@ -67,15 +63,15 @@ def retrieval(input):
 
 
 
-#dsk = {'startup': (perpetual_services, None),
-#       'microservices': (microservices, 'startup'),
-dsk = {'load_csv': (load_csv, 'microservices'),
+dsk = {'startup': (perpetual_services, None),
+       'microservices': (microservices, 'startup'),
+       'load_csv': (load_csv, 'microservices'),
        'clean_send': (clean_send, 'load_csv', 'first'),
        'retrieval': (retrieval, 'clean_send')}
 
-#from dask.multiprocessing import get
-#get(dsk, 'retrieval')
+from dask.multiprocessing import get
+get(dsk, 'retrieval')
 
-from distributed import Client
-client = Client('10.128.0.2:8786')
-client.get(dsk, 'retrieval')
+# from distributed import Client
+# client = Client('10.128.0.2:8786')
+# client.get(dsk, 'retrieval')
